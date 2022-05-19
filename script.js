@@ -22,8 +22,9 @@ function add () {
         lista.innerHTML += li;
         text.value = "";
         localStorage.setItem("tasks", JSON.stringify(a));
+        document.getElementById("delet").style.display = "block";
     };
-    document.getElementById("delet").style.display = "block";
+ 
 }
 
 function apagar (id) {
