@@ -40,7 +40,7 @@ function apagar (id) {
     var newTask = [];
     for (let i = 0; i < tarefas.length; i++){
         if (tarefas[i].id != id){
-            newTask = tarefas[i];
+            newTask.push(tarefas[i]);
         }
         localStorage.setItem("task", JSON.stringify(newTask));
         location.reload();
