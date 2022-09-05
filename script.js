@@ -1,40 +1,48 @@
-var a = [];
-var text = document.getElementById("toDo"); var lista = document.getElementById("list"); 
+var tarefas = [];
+var text = document.getElementById("toDo");
+var lista = document.getElementById("list");
 
 onload = () => {
-    let storage = localStorage.getItem("tasks");
-    if (storage){
-        a = JSON.parse(storage);
+    let newStorage = localStorage.getItem("task");
+    if (newStorage){
+        tarefas = JSON.parse(newStorage);
+
+        tarefas.forEach((tarefa) => {
+            lista.innerHTML += `<li>${tarefa.conteudo}<span onclick=apagar(${tarefa.id})><i class="fa-solid fa-trash"></i></span></li>`
+            document.getElementById("delet").style.display = "block";
+        });
     }
-    a.forEach ((task) => {
-        lista.innerHTML += `<li>${task.conteudo}<span onclick="apagar(${task.id})"><i class="fa-solid fa-trash"></i></span></li>`;    
-        document.getElementById("delet").style.display = "block";
-    });
 }
+
+document.addEventListener("keypress", function(e){
+    if (e.key === "Enter"){
+        const btn = document.querySelector("#add");
+        btn.click();
+    }
+})
 
 function add () {
     if (text.value == ""){
-        alert("Insira algum texto no campo!")
+        alert("Digite uma tarefa")
     } else {
         let task = {id: Math.random(), conteudo: text.value};
-        a.push(task);
-        let li = `<li>${task.conteudo}<span onclick="apagar(${task.id})"><i class="fa-solid fa-trash"></i></span></li>`;
+        tarefas.push(task);
+        let li = `<li>${task.conteudo}<span onclick=apagar(${task.id})><i class="fa-solid fa-trash"></i></span></li>`;
         lista.innerHTML += li;
         text.value = "";
-        localStorage.setItem("tasks", JSON.stringify(a));
         document.getElementById("delet").style.display = "block";
-    };
- 
+
+        localStorage.setItem("task", JSON.stringify(tarefas));
+    }
 }
 
 function apagar (id) {
-    let no_delet = [];
-    for (let i = 0; i < a.length; i++){
-        if (a[i].id != id){
-            no_delet.push(a[i]);
-        };
-        
-        localStorage.setItem("tasks", JSON.stringify(no_delet));
+    var newTask = [];
+    for (let i = 0; i < tarefas.length; i++){
+        if (tarefas[i].id != id){
+            newTask = tarefas[i];
+        }
+        localStorage.setItem("task", JSON.stringify(newTask));
         location.reload();
     }
 }
